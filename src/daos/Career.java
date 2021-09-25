@@ -2,34 +2,35 @@ package daos;
 
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-
+@Entity
 public class Career {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	@Column
-	private int nameCareer;
+	private String nameCareer;
 	@Column
 	private int duration;
 	
 	public Career() {
 		super();
 	}
-	public Career(int nameCareer, int duration) {
+	public Career(String nameCareer, int duration) {
 		super();
 		this.nameCareer = nameCareer;
 		this.duration = duration;
 	}
-	public int getNameCareer() {
+	public String getNameCareer() {
 		return nameCareer;
 	}
-	public void setNameCareer(int nameCareer) {
+	public void setNameCareer(String nameCareer) {
 		this.nameCareer = nameCareer;
 	}
 	public int getDuration() {
@@ -38,7 +39,7 @@ public class Career {
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	@Override

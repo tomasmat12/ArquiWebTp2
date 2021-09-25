@@ -4,13 +4,16 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+@Entity
 public class Student {
 	
 	@Id
+	@Column(nullable=false, name = "numBook")
 	private int numBook;
 	@Column
 	private String name;
@@ -31,8 +34,7 @@ public class Student {
 		super();
 	}
 	
-	public Student(int numBook, String name, String lastname, int age, String gender, int numDoc, String cityResident,
-			List<Inscription> careeres) {
+	public Student(int numBook, String name, String lastname, int age, String gender, int numDoc, String cityResident) {
 		super();
 		this.numBook = numBook;
 		this.name = name;
@@ -41,7 +43,6 @@ public class Student {
 		this.gender = gender;
 		this.numDoc = numDoc;
 		this.cityResident = cityResident;
-		this.careeres = careeres;
 	}
 
 	public String getName() {
@@ -100,7 +101,7 @@ public class Student {
 		this.careeres.add(career);
 	}
 
-	public int getNumBook() {
+	public Integer getNumBook() {
 		return numBook;
 	}
 
