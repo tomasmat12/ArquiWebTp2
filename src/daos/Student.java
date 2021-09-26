@@ -15,18 +15,25 @@ public class Student {
 	@Id
 	@Column(nullable=false, name = "numBook")
 	private int numBook;
+	
 	@Column
 	private String name;
+	
 	@Column
 	private String lastname;
+	
 	@Column
 	private int age;
+	
 	@Column
 	private String gender;
+	
 	@Column
 	private int numDoc;
+	
 	@Column
 	private String cityResident;
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student", cascade = CascadeType.ALL)
 	private List<Inscription> careeres;
 	

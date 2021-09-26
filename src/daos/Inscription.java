@@ -19,11 +19,11 @@ public class Inscription {
 	private int id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="fk_student", nullable=false)
+	@JoinColumn(name="numBook", nullable = false)
 	private Student student;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="fk_career",nullable=false)
+	@JoinColumn(name="id_career",nullable=false)
 	private Career career;
 	
 	@Column(name="start_date",nullable=false)

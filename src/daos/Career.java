@@ -13,6 +13,7 @@ public class Career {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "id_career")
 	private int id;
 	@Column
 	private String nameCareer;

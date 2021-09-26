@@ -72,7 +72,7 @@ import repositories.StudentRep;
 	
 	public static void loadDataInscription(InscriptionRep repository, EntityManager em)
 			throws Exception {
-		/*ESTE METODO TODAVIA NO ANDA*/
+		
 		CSVParser parser = CSVFormat.DEFAULT.withHeader()
 				.parse(new FileReader("./src/folder/inscripciones.csv"));
 		for (CSVRecord row : parser) {
