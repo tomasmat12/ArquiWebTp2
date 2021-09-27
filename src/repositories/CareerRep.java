@@ -23,8 +23,9 @@ public class CareerRep {
 		return c;
 	}
 	
-	public Career getCareerById(Long id) {
-		return em.find(Career.class, id);
+	public Career getCareerById(int i) {
+		return em.find(Career.class, i);
 	}	
+	
 	
 }

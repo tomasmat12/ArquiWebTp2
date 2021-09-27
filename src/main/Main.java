@@ -42,7 +42,36 @@ import repositories.StudentRep;
 			System.out.println(e);
 		}
 		
+		/**
+		 * Ejercicio 2 - Inciso A
+		 * Dar de alta un estudiante
+		 * Creamos un nuevo estudiante y llamamos a la funcion saveStudent
+		 * del repositorio de estuduantes para guardarlo en la db
+		 */
+		Student newStudent = new Student(224677, "Melany", "Pedemonte", 24, "female", 40555112, "Tandil");
+		studentRepository.saveStudent(newStudent);
+		
+		/**
+		 * Ejercicio 2 - Inciso B
+		 * Matricular un estudiante en una carrera.
+		 * Buscamos la carrera en la que deseamos inscribir el estudiante,
+		 * creamos una nueva inscripcion, le agregamos la fecha,
+		 * y llamamos a la funcion studentInscription del repositorio de estudiantes 
+		 * que se encarga de inscribir al estudiante en esa carrera.
+		 */
+		Career carrer = careerRepository.getCareerById(1);
+		Inscription inscription = new Inscription();
+		inscription.setCareer(carrer);
+		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Date dateInscription = formatDate.parse("2021-09-26 09:00:00");
+		Timestamp startDate = new Timestamp(dateInscription.getTime());
+		inscription.setStartDate(startDate);
+		studentRepository.studentInscription(newStudent, inscription); 
+		inscriptionRepository.saveInscription(inscription);
+		
+		
 		emf.close();
+
 	}
 	
 	
@@ -95,5 +124,5 @@ import repositories.StudentRep;
 			repository.saveInscription(i);
 		}
 	}
-
+		
 }

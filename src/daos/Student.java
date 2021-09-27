@@ -1,5 +1,6 @@
 package daos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -50,6 +51,7 @@ public class Student {
 		this.gender = gender;
 		this.numDoc = numDoc;
 		this.cityResident = cityResident;
+		this.careeres = new ArrayList<Inscription>();
 	}
 
 	public String getName() {
@@ -110,6 +112,17 @@ public class Student {
 
 	public Integer getNumBook() {
 		return numBook;
+	}
+	
+	/**
+	 * @param insc
+	 * 
+	 * agregamos la inscripcion a la lista de carreras en la que el estudiante
+	 * esta inscripto
+	 */
+    public void studentInscription(Inscription insc) {
+		this.addCareeres(insc);
+		insc.setStudent(this);
 	}
 
 	@Override

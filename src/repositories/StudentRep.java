@@ -2,6 +2,7 @@ package repositories;
 
 import javax.persistence.EntityManager;
 
+import daos.Inscription;
 import daos.Student;
 
 public class StudentRep {
@@ -26,6 +27,26 @@ public class StudentRep {
 	
 	public Student getStudentByNumBook(Long nb) {
 		return em.find(Student.class, nb);
+	}
+	
+	/** 
+	 * @param student
+	 * @param insc
+	 * 
+	 * utilizamos la funcion studentInscription del dao de estudiantes 
+	 * para completar la inscripcion.
+	 */
+	public void studentInscription(Student student, Inscription insc) {
+
+		try {
+			Student s = em.find(Student.class, student.getNumBook());
+			em.getTransaction().begin();
+			s.studentInscription(insc);
+			em.getTransaction().commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	

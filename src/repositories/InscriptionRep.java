@@ -3,6 +3,7 @@ package repositories;
 import javax.persistence.EntityManager;
 
 import daos.Inscription;
+import daos.Student;
 
 public class InscriptionRep {
 	
