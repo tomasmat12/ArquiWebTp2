@@ -1,15 +1,10 @@
 package main;
 
 import java.util.List;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -24,115 +19,134 @@ import daos.Student;
 
 import dtos.StudentDTO;
 import dtos.CareerDTO;
-
+import dtos.StudentCareerDTO;
 import repositories.CareerRep;
 import repositories.InscriptionRep;
 import repositories.StudentRep;
 
- class Main {
+class Main {
 
 	public static void main(String[] args) throws Exception {
-		
+
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("Example");
 		EntityManager em = emf.createEntityManager();
 
 		StudentRep studentRepository = new StudentRep(em);
 		CareerRep careerRepository = new CareerRep(em);
 		InscriptionRep inscriptionRepository = new InscriptionRep(em);
+
+
+		try { 
 			
-		try {
-			loadDataStudent(studentRepository);
+			loadDataStudent(studentRepository); 
 			loadDataCareer(careerRepository);
-			loadDataInscription(inscriptionRepository, em);
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		
-		/**
-		 * Ejercicio 2 - Inciso A
-		 * Dar de alta un estudiante
-		 * Creamos un nuevo estudiante y llamamos a la funcion saveStudent
-		 * del repositorio de estuduantes para guardarlo en la db
-		 */
-		Student newStudent = new Student(224677, "Melany", "Pedemonte", 24, "female", 40555112, "Tandil");
-		studentRepository.saveStudent(newStudent);
-		
-		/**
-		 * Ejercicio 2 - Inciso B
-		 * Matricular un estudiante en una carrera.
-		 * Buscamos la carrera en la que deseamos inscribir el estudiante,
-		 * creamos una nueva inscripcion, le agregamos la fecha,
-		 * y llamamos a la funcion studentInscription del repositorio de estudiantes 
-		 * que se encarga de inscribir al estudiante en esa carrera.
-		 */
-		Career carrer = careerRepository.getCareerById(1);
-		Inscription inscription = new Inscription();
-		inscription.setCareer(carrer);
-		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		Date dateInscription = formatDate.parse("2021-09-26 09:00:00");
-		Timestamp startDate = new Timestamp(dateInscription.getTime());
-		inscription.setStartDate(startDate);
-		studentRepository.studentInscription(newStudent, inscription); 
-		inscriptionRepository.saveInscription(inscription);
-		
+			loadDataInscription(inscriptionRepository, em); 
 			
-		
+		} catch (Exception e) {
+			System.out.println(e); 
+		}
+
 		/**
-		 * Ejercicio 2 - Inciso C
-		 * Recuperar todos los estudiantes, y especificar algún criterio de ordenamiento simple.
+		 * Ejercicio 2 - Inciso A Dar de alta un estudiante Creamos un nuevo estudiante
+		 * y llamamos a la funcion saveStudent del repositorio de estuduantes para
+		 * guardarlo en la db
+		 */
+
+		Student newStudent = new Student(224677, "Melany", "Pedemonte", 24, "female", 40555112, "Tandil"); 
+		studentRepository.saveStudent(newStudent);
+
+		/**
+		 * Ejercicio 2 - Inciso B Matricular un estudiante en una carrera. Buscamos la
+		 * carrera en la que deseamos inscribir el estudiante, creamos una nueva
+		 * inscripcion, le agregamos la fecha, y llamamos a la funcion
+		 * studentInscription del repositorio de estudiantes que se encarga de inscribir
+		 * al estudiante en esa carrera.
+		 */
+		Career carrer = careerRepository.getCareerById(1); 
+		Inscription inscription =  new Inscription(); inscription.setCareer(carrer); 
+		SimpleDateFormat formatDate  = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); 
+		Date dateInscription = formatDate.parse("2021-09-26 09:00:00"); 
+		Timestamp startDate = new Timestamp(dateInscription.getTime()); 
+		inscription.setStartDate(startDate);
+		studentRepository.studentInscription(newStudent, inscription);
+		inscriptionRepository.saveInscription(inscription);
+
+
+		/**
+		 * Ejercicio 2 - Inciso C Recuperar todos los estudiantes, y especificar algún
+		 * criterio de ordenamiento simple.
 		 * 
-		 * Se trae un listado de todos los estudiantes ordenados de forma ascendente por su nombre
+		 * Se trae un listado de todos los estudiantes ordenados de forma ascendente por
+		 * su nombre
 		 * 
 		 */
 		List<StudentDTO> students = studentRepository.getStudents();
-		System.out.println("\n Lista ordenada de Estudiantes \n");		
-		for(StudentDTO s: students) {
+		System.out.println("\n Lista ordenada de Estudiantes \n");
+		for (StudentDTO s : students) {
 			System.out.println(s);
 		}
-		
+
 		/**
-		 * Ejercicio 2 - Inciso D
-		 * Recuperar un estudiante, en base a su número de libreta universitaria.
+		 * Ejercicio 2 - Inciso D Recuperar un estudiante, en base a su número de
+		 * libreta universitaria.
 		 * 
-		 * Se consulta en la base de datos el estudiando con el numero de libreta pasado por parametro.
-		 * Ejemplo numero de libreta 100065
+		 * Se consulta en la base de datos el estudiando con el numero de libreta pasado
+		 * por parametro. Ejemplo numero de libreta 100065
 		 */
-		
+
 		List<StudentDTO> studentNumBook = studentRepository.getStudentByNumLibret(100065);
-		System.out.println("\n Buscar Estudiante por de su numero de libreta \n");		
-		for(StudentDTO s: studentNumBook) {
+		System.out.println("\n Buscar Estudiante por de su numero de libreta \n");
+		for (StudentDTO s : studentNumBook) {
 			System.out.println(s);
 		}
-		
+
 		/**
-		 * Ejercicio 2 - Inciso E
-		 * Recuperar todos los estudiantes, en base a su género.
+		 * Ejercicio 2 - Inciso E Recuperar todos los estudiantes, en base a su género.
 		 * 
-		 * Dado un genero pasado por parametro se pide un listado correspondiente a ese genero.
+		 * Dado un genero pasado por parametro se pide un listado correspondiente a ese
+		 * genero.
 		 */
-		
+
 		List<StudentDTO> studentsGender = studentRepository.getStudentsByGender("Male");
-		System.out.println("\n Lista de estudiantes por genero Masculino\n");		
-		for(StudentDTO s: studentsGender) {
+		System.out.println("\n Lista de estudiantes por genero Masculino\n");
+		for (StudentDTO s : studentsGender) {
 			System.out.println(s);
 		}
-		
-		
+
+		/**
+		 * Ejercicio 2 - Inciso F)  recuperar las carreras con estudiantes inscriptos, 
+		 * y ordenar por cantidad de inscriptos.
+		 * 
+		 * Devuelve un listado de DTO de Carreras donde ademas del nombre muestra la cantidad
+		 * de inscriptios, y los ordena descendentemente
+		 */
+
 		List<CareerDTO> inscriptionsCareer = inscriptionRepository.getInscriptionCareers();
-		System.out.println("\nLista de carreras ordenadas por cantidad de inscriptos:");		
-		for(CareerDTO ic: inscriptionsCareer) {
+		System.out.println("\nLista de carreras ordenadas por cantidad de inscriptos:");
+		for (CareerDTO ic : inscriptionsCareer) {
 			System.out.println(ic);
 		}
-		
-		
+
+		/**
+		 * Ejercicio 2 - Inciso G) recuperar los estudiantes de una determinada carrera, 
+		 * filtrado por ciudad de residencia.
+		 * 
+		 * Devuelve un listado de DTO con los datos del Estudiantes incluyendo el nombre de la carrera 
+		 * que se esta buscando 
+		 */
+
+		List<StudentCareerDTO> studentCareer = studentRepository.getStudentCareer(13, "Bandera");
+		System.out.println("\n Lista de estudiantes por ciudad y carrera:");
+		for (StudentCareerDTO s : studentCareer) {
+			System.out.println(s);
+		}
+
 		emf.close();
 	}
-	
-	
+
 	public static void loadDataStudent(StudentRep repository) throws Exception {
 
-		CSVParser parser = CSVFormat.DEFAULT.withHeader()
-				.parse(new FileReader("./src/folder/estudiantes.csv"));
+		CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader("./src/folder/estudiantes.csv"));
 		for (CSVRecord row : parser) {
 
 			Student e = new Student(Integer.parseInt(row.get("numBook")), row.get("name"), row.get("lastname"),
@@ -141,23 +155,20 @@ import repositories.StudentRep;
 			repository.saveStudent(e);
 		}
 	}
-	
+
 	public static void loadDataCareer(CareerRep repository) throws Exception {
 
-		CSVParser parser = CSVFormat.DEFAULT.withHeader()
-				.parse(new FileReader("./src/folder/carreras.csv"));
+		CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader("./src/folder/carreras.csv"));
 		for (CSVRecord row : parser) {
 
 			Career c = new Career(row.get("nameCareer"), Integer.parseInt(row.get("duration")));
 			repository.saveCareer(c);
 		}
 	}
-	
-	public static void loadDataInscription(InscriptionRep repository, EntityManager em)
-			throws Exception {
-		
-		CSVParser parser = CSVFormat.DEFAULT.withHeader()
-				.parse(new FileReader("./src/folder/inscripciones.csv"));
+
+	public static void loadDataInscription(InscriptionRep repository, EntityManager em) throws Exception {
+
+		CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader("./src/folder/inscripciones.csv"));
 		for (CSVRecord row : parser) {
 
 			Student s = em.getReference(Student.class, Integer.parseInt(row.get("numBook")));
@@ -178,5 +189,5 @@ import repositories.StudentRep;
 			repository.saveInscription(i);
 		}
 	}
-		
+
 }

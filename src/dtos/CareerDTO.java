@@ -35,7 +35,7 @@ public class CareerDTO {
 
 	@Override
 	public String toString() {
-		return "CareerDto [career=" + career + ", inscriptions=" + inscriptions + "]";
+		return "Career [career=" + career + ", inscriptions=" + inscriptions + "]";
 	}
 
 }

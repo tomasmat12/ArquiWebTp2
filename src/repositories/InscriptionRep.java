@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import daos.Inscription;
-import daos.Student;
 import dtos.CareerDTO;
 
 public class InscriptionRep {
@@ -42,6 +41,7 @@ public class InscriptionRep {
 	 * @return List<CareerDTO>
 	 */
 	
+	@SuppressWarnings("unchecked")
 	public List<CareerDTO> getInscriptionCareers() {
 		List<CareerDTO> result = new ArrayList<CareerDTO>();
 	 	Query query = em.createQuery("SELECT new dtos.CareerDTO(c.nameCareer, COUNT(i.student) AS students) FROM Career c, Inscription i WHERE c.id = i.career GROUP BY c.nameCareer ORDER BY students DESC");

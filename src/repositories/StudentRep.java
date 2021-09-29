@@ -8,6 +8,7 @@ import javax.persistence.Query;
 
 import daos.Inscription;
 import daos.Student;
+import dtos.StudentCareerDTO;
 import dtos.StudentDTO;
 
 public class StudentRep {
@@ -59,6 +60,7 @@ public class StudentRep {
 	 * 
 	 * @return List<StudentDTO>
 	 */
+	@SuppressWarnings("unchecked")
 	public List<StudentDTO> getStudents() {
 		List<StudentDTO> students;
 		Query query = em.createQuery("SELECT new dtos.StudentDTO(s.numBook, s.name, s.lastname, s.age, s.gender, s.numDoc, s.cityResident)"
@@ -74,6 +76,7 @@ public class StudentRep {
 	 * @param gender
 	 * @return List<StudentDTO>
 	 */
+	@SuppressWarnings("unchecked")
 	public List<StudentDTO> getStudentsByGender(String gender) {
 		List<StudentDTO> students;
 		Query query = em.createQuery("SELECT new dtos.StudentDTO(s.numBook, s.name, s.lastname, s.age, s.gender, s.numDoc, s.cityResident) FROM Student s WHERE s.gender = :gender");
@@ -96,6 +99,25 @@ public class StudentRep {
 		query.setParameter("numBook", numBook);
 		s = query.getResultList();
 		return s;
+	}
+	
+	/**
+	 * Se retorna una lista de estudiantes en base a una carrera (id_carrera) y a una ciudad
+	 * especifica, ambos se pasan por parametro
+	 * 
+	 * @param idCareer
+	 * @param city
+	 * @return List<StudentCareerDTO>
+	 */
+	@SuppressWarnings("unchecked")
+	public List<StudentCareerDTO> getStudentCareer(int idCareer, String city) {
+		List<StudentCareerDTO> students = new ArrayList<StudentCareerDTO>();
+		Query query = em.createQuery(
+				"SELECT new dtos.StudentCareerDTO(s.numBook, s.name, s.lastname, s.age, s.gender, s.numDoc, s.cityResident, c.nameCareer) FROM Student s, Career c, Inscription i WHERE s.numBook = i.student AND c.id = i.career AND c.id = :id AND s.cityResident = :city GROUP BY i.student");
+		query.setParameter("id", idCareer);
+		query.setParameter("city", city);
+		students = query.getResultList();
+		return students;
 	}
 	
 	
