@@ -1,7 +1,6 @@
 package repositories;
 
 import javax.persistence.EntityManager;
-
 import daos.Career;
 
 public class CareerRep {
@@ -26,6 +25,9 @@ public class CareerRep {
 	public Career getCareerById(int i) {
 		return em.find(Career.class, i);
 	}	
+	
+	
+	
 	
 	
 }

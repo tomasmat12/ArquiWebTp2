@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -19,6 +20,7 @@ import org.apache.commons.csv.CSVRecord;
 import daos.Career;
 import daos.Inscription;
 import daos.Student;
+import dto.CareerDto;
 import repositories.CareerRep;
 import repositories.InscriptionRep;
 import repositories.StudentRep;
@@ -68,6 +70,13 @@ import repositories.StudentRep;
 		inscription.setStartDate(startDate);
 		studentRepository.studentInscription(newStudent, inscription); 
 		inscriptionRepository.saveInscription(inscription);
+		
+		
+		List<CareerDto> inscriptionsCareer = inscriptionRepository.getInscriptionCareers();
+		System.out.println("\nLista de carreras ordenadas por cantidad de inscriptos:");		
+		for(CareerDto ic: inscriptionsCareer) {
+			System.out.println(ic);
+		}
 		
 		
 		emf.close();
