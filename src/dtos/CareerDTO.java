@@ -1,12 +1,12 @@
-package dto;
+package dtos;
 
-public class CareerDto {
+public class CareerDTO {
 	
 	private String career;
 	private Long inscriptions;
 	
 	
-	public CareerDto(String career, Long inscriptions) {
+	public CareerDTO(String career, Long inscriptions) {
 		super();
 		this.career = career;
 		this.inscriptions = inscriptions;
@@ -37,9 +37,5 @@ public class CareerDto {
 	public String toString() {
 		return "CareerDto [career=" + career + ", inscriptions=" + inscriptions + "]";
 	}
-
-	
-	
-	
 
 }
