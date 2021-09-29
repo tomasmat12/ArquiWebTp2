@@ -1,5 +1,6 @@
 package main;
 
+import java.util.List;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,6 +20,7 @@ import org.apache.commons.csv.CSVRecord;
 import daos.Career;
 import daos.Inscription;
 import daos.Student;
+import dtos.StudentDTO;
 import repositories.CareerRep;
 import repositories.InscriptionRep;
 import repositories.StudentRep;
@@ -69,9 +71,50 @@ import repositories.StudentRep;
 		studentRepository.studentInscription(newStudent, inscription); 
 		inscriptionRepository.saveInscription(inscription);
 		
+			
+		
+		/**
+		 * Ejercicio 2 - Inciso C
+		 * Recuperar todos los estudiantes, y especificar algún criterio de ordenamiento simple.
+		 * 
+		 * Se trae un listado de todos los estudiantes ordenados de forma ascendente por su nombre
+		 * 
+		 */
+		List<StudentDTO> students = studentRepository.getStudents();
+		System.out.println("\n Lista ordenada de Estudiantes \n");		
+		for(StudentDTO s: students) {
+			System.out.println(s);
+		}
+		
+		/**
+		 * Ejercicio 2 - Inciso D
+		 * Recuperar un estudiante, en base a su número de libreta universitaria.
+		 * 
+		 * Se consulta en la base de datos el estudiando con el numero de libreta pasado por parametro.
+		 * Ejemplo numero de libreta 100065
+		 */
+		
+		List<StudentDTO> studentNumBook = studentRepository.getStudentByNumLibret(100065);
+		System.out.println("\n Buscar Estudiante por de su numero de libreta \n");		
+		for(StudentDTO s: studentNumBook) {
+			System.out.println(s);
+		}
+		
+		/**
+		 * Ejercicio 2 - Inciso E
+		 * Recuperar todos los estudiantes, en base a su género.
+		 * 
+		 * Dado un genero pasado por parametro se pide un listado correspondiente a ese genero.
+		 */
+		
+		List<StudentDTO> studentsGender = studentRepository.getStudentsByGender("Male");
+		System.out.println("\n Lista de estudiantes por genero Masculino\n");		
+		for(StudentDTO s: studentsGender) {
+			System.out.println(s);
+		}
+		
 		
 		emf.close();
-
 	}
 	
 	

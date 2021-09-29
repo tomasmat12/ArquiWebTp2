@@ -1,9 +1,14 @@
 package repositories;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import daos.Inscription;
 import daos.Student;
+import dtos.StudentDTO;
 
 public class StudentRep {
 	
@@ -47,6 +52,50 @@ public class StudentRep {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Se retorna una lista de todos los estudiantes
+	 * 
+	 * @return List<StudentDTO>
+	 */
+	public List<StudentDTO> getStudents() {
+		List<StudentDTO> students;
+		Query query = em.createQuery("SELECT new dtos.StudentDTO(s.numBook, s.name, s.lastname, s.age, s.gender, s.numDoc, s.cityResident)"
+				+ " FROM Student s ORDER BY s.name ASC");
+		students = query.getResultList();
+		return students;
+	}
+	
+	
+	/**
+	 * Se retorna una lista de estudiantes en base a su genero
+	 * 
+	 * @param gender
+	 * @return List<StudentDTO>
+	 */
+	public List<StudentDTO> getStudentsByGender(String gender) {
+		List<StudentDTO> students;
+		Query query = em.createQuery("SELECT new dtos.StudentDTO(s.numBook, s.name, s.lastname, s.age, s.gender, s.numDoc, s.cityResident) FROM Student s WHERE s.gender = :gender");
+		query.setParameter("gender", gender);
+		students = query.getResultList();
+		return students;
+	}
+
+	/**
+	 * Se retorna un estudiante en base a su libreta universitaria
+	 * 
+	 * @param numLibret
+	 * @return List<StudentDTO>
+	 */
+	@SuppressWarnings("unchecked")
+	public List<StudentDTO> getStudentByNumLibret(int numBook) {
+		List<StudentDTO> s = new ArrayList<StudentDTO>();
+		Query query = em.createQuery(
+				"SELECT new dtos.StudentDTO(s.numBook, s.name, s.lastname, s.age, s.gender, s.numDoc, s.cityResident) FROM Student s WHERE s.numBook = :numBook");
+		query.setParameter("numBook", numBook);
+		s = query.getResultList();
+		return s;
 	}
 	
 	
