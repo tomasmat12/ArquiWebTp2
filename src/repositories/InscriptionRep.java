@@ -8,6 +8,7 @@ import javax.persistence.Query;
 
 import daos.Inscription;
 import dtos.CareerDTO;
+import dtos.CareerReportDTO;
 
 public class InscriptionRep {
 	
@@ -48,6 +49,26 @@ public class InscriptionRep {
 	 	result = query.getResultList();
 	 	return result;
 
+	}
+	
+
+	/*
+	 * nameCareer
+	 * year
+	 * cantInscriptios
+	 * cantEgr
+	 * 
+	 * order by nameCareer asc and year asc
+	 * */
+	
+	@SuppressWarnings("unchecked")
+	public List<CareerReportDTO> getCareerOrderByNameAndYear(){
+		List<CareerReportDTO> result = new ArrayList<CareerReportDTO>();
+		Query query = em.createQuery(
+				"SELECT new dtos.CareerReportDTO(c.nameCareer, YEAR(i.graduation) as graduationYear, COUNT(i.graduation) as Egresados) "
+						+ "	FROM Career c, Inscription i WHERE c.id = i.career AND i.graduation != NULL GROUP BY c.nameCareer, graduationYear ORDER BY c.nameCareer ASC, graduationYear");
+	 	result = query.getResultList();
+	 	return result;
 	}
 
 }

@@ -19,6 +19,7 @@ import daos.Student;
 
 import dtos.StudentDTO;
 import dtos.CareerDTO;
+import dtos.CareerReportDTO;
 import dtos.StudentCareerDTO;
 import repositories.CareerRep;
 import repositories.InscriptionRep;
@@ -35,7 +36,7 @@ class Main {
 		CareerRep careerRepository = new CareerRep(em);
 		InscriptionRep inscriptionRepository = new InscriptionRep(em);
 
-
+		
 		try { 
 			
 			loadDataStudent(studentRepository); 
@@ -140,6 +141,18 @@ class Main {
 		for (StudentCareerDTO s : studentCareer) {
 			System.out.println(s);
 		}
+		
+		/**
+		 * Ejercicio 3) Generar un reporte de las carreras, que para cada carrera incluya información de los
+		 * inscriptos y egresados por año. Se deben ordenar las carreras alfabéticamente, y presentar
+		 * los años de manera cronológica.
+		 * */
+		List<CareerReportDTO> careerRpt = inscriptionRepository.getCareerOrderByNameAndYear();
+		System.out.println("\n Lista de estudiantes por ciudad y carrera:");
+		for (CareerReportDTO cr : careerRpt) {
+			System.out.println(cr);
+		}
+		
 
 		emf.close();
 	}
