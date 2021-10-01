@@ -1,14 +1,16 @@
 package dtos;
 
+import java.math.BigInteger;
+
 public class CareerReportDTO {
 	
 	private String nameCareer;
-	private int year;
-	private Long qEnrolled;
-	private Long qGraduates;
+	private Integer year;
+	private BigInteger qEnrolled;
+	private BigInteger qGraduates;
 	
 	
-	public CareerReportDTO(String nameCareer, int year, Long qEnrolled, Long qGraduates) {
+	public CareerReportDTO(String nameCareer, Integer year, BigInteger qEnrolled, BigInteger qGraduates) {
 		super();
 		this.nameCareer = nameCareer;
 		this.year = year;
@@ -27,32 +29,32 @@ public class CareerReportDTO {
 	}
 
 
-	public int getYear() {
+	public Integer getYear() {
 		return year;
 	}
 
 
-	public void setYear(int year) {
+	public void setYear(Integer year) {
 		this.year = year;
 	}
 
 
-	public Long getqEnrolled() {
+	public BigInteger getqEnrolled() {
 		return qEnrolled;
 	}
 
 
-	public void setqEnrolled(Long qEnrolled) {
+	public void setqEnrolled(BigInteger qEnrolled) {
 		this.qEnrolled = qEnrolled;
 	}
 
 
-	public Long getqGraduates() {
+	public BigInteger getqGraduates() {
 		return qGraduates;
 	}
 
 
-	public void setqGraduates(Long qGraduates) {
+	public void setqGraduates(BigInteger qGraduates) {
 		this.qGraduates = qGraduates;
 	}
 

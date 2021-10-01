@@ -1,5 +1,9 @@
 package repositories;
 
+import java.math.BigInteger;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -7,9 +11,13 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import org.hibernate.transform.Transformers;
+
+
 import daos.Inscription;
 import dtos.CareerDTO;
 import dtos.CareerReportDTO;
+
 
 public class InscriptionRep {
 	
@@ -53,38 +61,32 @@ public class InscriptionRep {
 	}
 	
 
-	/*
-	 * nameCareer
-	 * year
-	 * cantInscriptios
-	 * cantEgr
-	 * 
-	 * order by nameCareer asc and year asc
-	 * */
+
+    /**
+     *  Metodo que devuelve la cantidad de inscriptos y egresados por año de cada carrera.
+     *  Tuvimos que hacer la consulta en SQL nativo por JPQL no permite sub-consultas entonces no la podiamos resolver de otra forma con una sola consulta.
+     * 
+     * @return  Una lista ordenada de Carreras por nombre y año.
+     */
 	
 	@SuppressWarnings("unchecked")
 	public List<CareerReportDTO> getCareerOrderByNameAndYear(){
+		
 		List<CareerReportDTO> result = new ArrayList<CareerReportDTO>();
-		/*Query query = em.createQuery(
-				"SELECT new dtos.CareerReportDTO(c.nameCareer, YEAR(i.graduation) as graduationYear, COUNT(i.graduation) as Egresados) "
-						+ "	FROM Career c, Inscription i WHERE c.id = i.career AND i.graduation != NULL GROUP BY c.nameCareer, graduationYear ORDER BY c.nameCareer ASC, graduationYear");
-	 	*/
-		Query query = em.createNativeQuery("select c.id_career, c.nameCareer, egresados.year, egresados.contadorEgresados, inscriptos.contadorInscipcion from career c join "
+		Query query = em.createNativeQuery("select c.nameCareer, egresados.year, egresados.contadorEgresados, inscriptos.contadorInscripcion from career c join "
 				+ "(select id_career, YEAR(graduation) as year, COUNT(graduation) as contadorEgresados from inscription where graduation is not null GROUP by id_career, year)"
-				+ " as egresados on egresados.id_career = c.id_career join (select id_career, YEAR(start_date) as year, COUNT(start_date) as contadorInscipcion from inscription GROUP by id_career, year)"
-				+ " as inscriptos where inscriptos.id_career = c.id_career GROUP BY c.id_career, year order by c.nameCareer, year");
-		result = query.getResultList();
-		List<CareerReportDTO> aux = new ArrayList<CareerReportDTO>();
-		//(String nameCareer, int year, Long qEnrolled, Long qGraduates)
-		/*
-		for (CareerReportDTO r : result) {
-			System.out.println();
-			aux.add( new CareerReportDTO(r.getNameCareer(),r.getYear(),r.getqEnrolled(),r.getqGraduates()));
-			System.out.println("nombre dasd : "+ r.getNameCareer());
+				+ " as egresados on egresados.id_career = c.id_career join (select id_career, YEAR(start_date) as year, COUNT(start_date) as contadorInscripcion from inscription GROUP by id_career, year)"
+				+ " as inscriptos where inscriptos.id_career = c.id_career GROUP BY c.nameCareer, year order by c.nameCareer, year");
+		
+		List<Object[]> results = query.getResultList();
+				
+		for (Object[] r : results) {
+			// Se puede acceder a los datos de esta forma por que sabemos que la consulta es fija y no va a variar.
+			result.add(new CareerReportDTO((String)r[0],(Integer)r[1],(BigInteger)r[2],(BigInteger)r[3]));
 		}
-		*/
-		//new CareerReportDTO(r.getNameCareer(),r.getYear(),r.getqEnrolled(),r.getqGraduates()))
+
 	 	return result;
 	}
-
+	
+	
 }
